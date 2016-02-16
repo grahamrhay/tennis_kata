@@ -15,7 +15,10 @@ start_link() ->
     gen_server:start_link(?MODULE, [], []).
 
 init([]) ->
-    {ok, #{}}.
+    {ok, #{p1=>love,p2=>love}}.
+
+handle_call(get_score, _From, State) ->
+    {reply, State, State};
 
 handle_call(_Msg, _From, State) ->
     {reply, ignored, State}.
