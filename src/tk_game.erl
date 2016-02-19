@@ -20,18 +20,20 @@ init([]) ->
 handle_call(get_score, _From, State) ->
     {reply, State, State};
 
-handle_call({won_point, p1}, _From, State = #{p1:=40, p2:=P2Score}) when P2Score =/= 40 ->
+handle_call({won_point, p1}, _From, State = #{p1:=40}) ->
     {stop, normal, {game_over, p1}, State};
 
-handle_call({won_point, p1}, _From, State = #{p1:=CurrentScore}) ->
-    NewState = State#{p1:=new_score(CurrentScore)},
+handle_call({won_point, p1}, _From, State = #{p1:=P1Score,p2:=P2Score}) ->
+    {NewP1Score, NewP2Score} = new_score(P1Score, P2Score),
+    NewState = State#{p1:=NewP1Score, p2:=NewP2Score},
     {reply, NewState, NewState};
 
-handle_call({won_point, p2}, _From, State = #{p2:=40, p1:=P1Score}) when P1Score =/= 40 ->
+handle_call({won_point, p2}, _From, State = #{p2:=40}) ->
     {stop, normal, {game_over, p2}, State};
 
-handle_call({won_point, p2}, _From, State = #{p2:=CurrentScore}) ->
-    NewState = State#{p2:=new_score(CurrentScore)},
+handle_call({won_point, p2}, _From, State = #{p1:=P1Score, p2:=P2Score}) ->
+    {NewP2Score, NewP1Score} = new_score(P2Score, P1Score),
+    NewState = State#{p1:=NewP1Score, p2:=NewP2Score},
     {reply, NewState, NewState};
 
 handle_call(_Msg, _From, State) ->
@@ -49,6 +51,7 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
-new_score(love) -> 15;
-new_score(15) -> 30;
-new_score(30) -> 40.
+new_score(love, Score) -> {15, Score};
+new_score(15, Score) -> {30, Score};
+new_score(30, 40) -> {deuce, deuce};
+new_score(30, Score) -> {40, Score}.
