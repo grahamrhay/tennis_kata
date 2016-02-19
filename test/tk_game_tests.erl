@@ -19,7 +19,8 @@ tk_game_test_() ->
         fun advantage_p2/1,
         fun advantage_p1_back_to_deuce/1,
         fun advantage_p2_back_to_deuce/1,
-        fun advantage_p1_then_win/1
+        fun advantage_p1_then_win/1,
+        fun advantage_p2_then_win/1
     ]}.
 
 setup() ->
@@ -163,6 +164,18 @@ advantage_p1_then_win(Pid) ->
         won_point(Pid, p2),
         won_point(Pid, p1),
         ?assertEqual({game_over, p1}, won_point(Pid, p1))
+    end.
+
+advantage_p2_then_win(Pid) ->
+    fun() ->
+        won_point(Pid, p1),
+        won_point(Pid, p2),
+        won_point(Pid, p1),
+        won_point(Pid, p1),
+        won_point(Pid, p2),
+        won_point(Pid, p2),
+        won_point(Pid, p2),
+        ?assertEqual({game_over, p2}, won_point(Pid, p2))
     end.
 
 won_point(Pid, Player) ->

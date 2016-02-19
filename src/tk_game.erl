@@ -34,6 +34,9 @@ handle_call({won_point, p1}, _From, State = #{p1:=P1Score,p2:=P2Score}) ->
 handle_call({won_point, p2}, _From, State = #{p1:=P1Score, p2:=40}) when P1Score =/= advantage ->
     {stop, normal, {game_over, p2}, State};
 
+handle_call({won_point, p2}, _From, State = #{p2:=advantage}) ->
+    {stop, normal, {game_over, p2}, State};
+
 handle_call({won_point, p2}, _From, State = #{p1:=P1Score, p2:=P2Score}) ->
     {NewP2Score, NewP1Score} = new_score(P2Score, P1Score),
     NewState = State#{p1:=NewP1Score, p2:=NewP2Score},
