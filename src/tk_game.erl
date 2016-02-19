@@ -20,6 +20,9 @@ init([]) ->
 handle_call(get_score, _From, State) ->
     {reply, State, State};
 
+handle_call({won_point, p1}, _From, State = #{p1:=40, p2:=P2Score}) when P2Score =/= 40 ->
+    {stop, normal, {game_over, p1}, State};
+
 handle_call({won_point, p1}, _From, State = #{p1:=CurrentScore}) ->
     NewState = State#{p1:=new_score(CurrentScore)},
     {reply, NewState, NewState};
