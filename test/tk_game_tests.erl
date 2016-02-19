@@ -25,10 +25,10 @@ server_is_alive(Pid) ->
 
 initial_score(Pid) ->
     fun() ->
-            ?assertEqual(#{p1=>love,p2=>love}, gen_server:call(Pid, get_score))
+        ?assertEqual(#{p1=>love,p2=>love}, gen_server:call(Pid, get_score))
     end.
 
 fifteen_love(Pid) ->
     fun() ->
-            ?assertEqual(#{p1=>15,p2=>love}, gen_server:call(Pid, {won_point, p1}))
+        ?assertEqual(#{p1=>15,p2=>love}, gen_server:call(Pid, {won_point, p1}))
     end.
