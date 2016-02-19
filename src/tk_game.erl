@@ -20,7 +20,7 @@ init([]) ->
 handle_call(get_score, _From, State) ->
     {reply, State, State};
 
-handle_call({won_point, p1}, _From, State = #{p1:=40}) ->
+handle_call({won_point, p1}, _From, State = #{p1:=40, p2:=P2Score}) when P2Score =/= advantage ->
     {stop, normal, {game_over, p1}, State};
 
 handle_call({won_point, p1}, _From, State = #{p1:=P1Score,p2:=P2Score}) ->
