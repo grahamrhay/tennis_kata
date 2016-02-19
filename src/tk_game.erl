@@ -27,6 +27,9 @@ handle_call({won_point, p1}, _From, State = #{p1:=CurrentScore}) ->
     NewState = State#{p1:=new_score(CurrentScore)},
     {reply, NewState, NewState};
 
+handle_call({won_point, p2}, _From, State = #{p2:=40, p1:=P1Score}) when P1Score =/= 40 ->
+    {stop, normal, {game_over, p2}, State};
+
 handle_call({won_point, p2}, _From, State = #{p2:=CurrentScore}) ->
     NewState = State#{p2:=new_score(CurrentScore)},
     {reply, NewState, NewState};
