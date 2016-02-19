@@ -7,7 +7,8 @@ foo_server_test_() ->
         fun server_is_alive/1,
         fun initial_score/1,
         fun fifteen_love/1,
-        fun love_fifteen/1
+        fun love_fifteen/1,
+        fun fifteen_all/1
     ]}.
 
 setup() ->
@@ -31,10 +32,19 @@ initial_score(Pid) ->
 
 fifteen_love(Pid) ->
     fun() ->
-        ?assertEqual(#{p1=>15,p2=>love}, gen_server:call(Pid, {won_point, p1}))
+        ?assertEqual(#{p1=>15,p2=>love}, won_point(Pid, p1))
     end.
 
 love_fifteen(Pid) ->
     fun() ->
-        ?assertEqual(#{p1=>love,p2=>15}, gen_server:call(Pid, {won_point, p2}))
+        ?assertEqual(#{p1=>love,p2=>15}, won_point(Pid, p2))
     end.
+
+fifteen_all(Pid) ->
+    fun() ->
+        won_point(Pid, p1),
+        ?assertEqual(#{p1=>15,p2=>15}, won_point(Pid, p2))
+    end.
+
+won_point(Pid, Player) ->
+    gen_server:call(Pid, {won_point, Player}).
