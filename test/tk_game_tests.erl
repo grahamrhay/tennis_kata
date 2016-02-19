@@ -5,7 +5,8 @@
 foo_server_test_() ->
     {foreach, fun setup/0, fun cleanup/1, [
         fun server_is_alive/1,
-        fun initial_score/1
+        fun initial_score/1,
+        fun fifteen_love/1
     ]}.
 
 setup() ->
@@ -25,4 +26,9 @@ server_is_alive(Pid) ->
 initial_score(Pid) ->
     fun() ->
             ?assertEqual(#{p1=>love,p2=>love}, gen_server:call(Pid, get_score))
+    end.
+
+fifteen_love(Pid) ->
+    fun() ->
+            ?assertEqual(#{p1=>15,p2=>love}, gen_server:call(Pid, {won_point, p1}))
     end.

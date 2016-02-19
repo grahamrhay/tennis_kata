@@ -20,6 +20,10 @@ init([]) ->
 handle_call(get_score, _From, State) ->
     {reply, State, State};
 
+handle_call({won_point, p1}, _From, State = #{p1:=CurrentScore}) ->
+    NewState = State#{p1:=new_score(CurrentScore)},
+    {reply, NewState, NewState};
+
 handle_call(_Msg, _From, State) ->
     {reply, ignored, State}.
 
@@ -34,3 +38,5 @@ terminate(_Reason, _State) ->
 
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
+
+new_score(love) -> 15.
