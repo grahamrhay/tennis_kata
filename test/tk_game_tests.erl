@@ -11,7 +11,8 @@ tk_game_test_() ->
         fun fifteen_all/1,
         fun thirty_fifteen/1,
         fun thirty_all/1,
-        fun forty_thirty/1
+        fun forty_thirty/1,
+        fun forty_all/1
     ]}.
 
 setup() ->
@@ -71,6 +72,16 @@ forty_thirty(Pid) ->
         won_point(Pid, p1),
         won_point(Pid, p2),
         ?assertEqual(#{p1=>40,p2=>30}, won_point(Pid, p1))
+    end.
+
+forty_all(Pid) ->
+    fun() ->
+        won_point(Pid, p1),
+        won_point(Pid, p2),
+        won_point(Pid, p1),
+        won_point(Pid, p1),
+        won_point(Pid, p2),
+        ?assertEqual(#{p1=>40,p2=>40}, won_point(Pid, p2))
     end.
 
 won_point(Pid, Player) ->
