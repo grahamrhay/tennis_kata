@@ -28,7 +28,7 @@ handle_call({won_point, p1}, _From, State = #{p1:=P1Score,p2:=P2Score}) ->
     NewState = State#{p1:=NewP1Score, p2:=NewP2Score},
     {reply, NewState, NewState};
 
-handle_call({won_point, p2}, _From, State = #{p2:=40}) ->
+handle_call({won_point, p2}, _From, State = #{p1:=P1Score, p2:=40}) when P1Score =/= advantage ->
     {stop, normal, {game_over, p2}, State};
 
 handle_call({won_point, p2}, _From, State = #{p1:=P1Score, p2:=P2Score}) ->
@@ -55,4 +55,5 @@ new_score(love, Score) -> {15, Score};
 new_score(15, Score) -> {30, Score};
 new_score(30, 40) -> {deuce, deuce};
 new_score(30, Score) -> {40, Score};
-new_score(deuce, deuce) -> {advantage, 40}.
+new_score(deuce, deuce) -> {advantage, 40};
+new_score(40, advantage) -> {deuce, deuce}.
