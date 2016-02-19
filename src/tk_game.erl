@@ -44,4 +44,5 @@ code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
 new_score(love) -> 15;
-new_score(15) -> 30.
+new_score(15) -> 30;
+new_score(30) -> 40.
