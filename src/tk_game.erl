@@ -54,4 +54,5 @@ code_change(_OldVsn, State, _Extra) ->
 new_score(love, Score) -> {15, Score};
 new_score(15, Score) -> {30, Score};
 new_score(30, 40) -> {deuce, deuce};
-new_score(30, Score) -> {40, Score}.
+new_score(30, Score) -> {40, Score};
+new_score(deuce, deuce) -> {advantage, 40}.
