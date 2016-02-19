@@ -2,7 +2,7 @@
 
 -include_lib("eunit/include/eunit.hrl").
 
-foo_server_test_() ->
+tk_game_test_() ->
     {foreach, fun setup/0, fun cleanup/1, [
         fun server_is_alive/1,
         fun initial_score/1,
